@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ 
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: 'https://api.groq.com/openai/v1',
-});
+export const dynamic = 'force-dynamic';
+
+const getOpenAIClient = () => {
+  return new OpenAI({ 
+    apiKey: process.env.GROQ_API_KEY || 'dummy-key',
+    baseURL: 'https://api.groq.com/openai/v1',
+  });
+};
 
 const SYSTEM_PROMPT = `You are simulating a deep, realistic therapy session between a professional Therapist and a college Student.
 
@@ -62,6 +66,7 @@ export async function POST(req: NextRequest) {
       content: h.content,
     }));
 
+    const openai = getOpenAIClient();
     const response = await openai.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [

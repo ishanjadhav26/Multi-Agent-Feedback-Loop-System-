@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 const ELEVENLABS_VOICE_ID = '21m00Tcm4TlvDq8ikWAM';
 
 export async function POST(req: NextRequest) {
